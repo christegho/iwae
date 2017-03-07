@@ -8,7 +8,7 @@ if __name__ == '__main__':
 
     for filename in mnist_filenames:
         local_filename = os.path.join(config.DATASETS_DIR, "MNIST", filename)
-        urllib.urlretrieve("http://yann.lecun.com/exdb/mnist/{}.gz".format(filename), local_filename+'.gz')
+	urllib.urlretrieve("https://web.archive.org/web/20150906081542/http://yann.lecun.com/exdb/mnist/{}.gz".format(filename), local_filename+'.gz')
         with gzip.open(local_filename+'.gz', 'rb') as f:
             file_content = f.read()
         with open(local_filename, 'wb') as f:
