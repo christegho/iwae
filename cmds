@@ -1,1 +1,28 @@
-python experiments.py --model vae --dataset MNIST --k 50 --layers 1
+cd Desktop/iwae
+source ../theano-env/bin/activate
+
+#APPENDIX D. TABLE 3. BINARY MNIST
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model vae --dataset BinFixMNIST --k 1 --layers 1
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model vae --dataset BinFixMNIST --k 5 --layers 1
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model vae --dataset BinFixMNIST --k 50 --layers 1
+
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model vae --dataset BinFixMNIST --k 1 --layers 2
+#TODO
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model vae --dataset BinFixMNIST --k 5 --layers 2
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model vae --dataset BinFixMNIST --k 50 --layers 2
+
+
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model iwae --dataset BinFixMNIST --k 1 --layers 1
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model iwae --dataset BinFixMNIST --k 5 --layers 1
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model iwae --dataset BinFixMNIST --k 50 --layers 1
+
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model iwae --dataset BinFixMNIST --k 1 --layers 2
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model iwae --dataset BinFixMNIST --k 5 --layers 2
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model iwae --dataset BinFixMNIST --k 50 --layers 2
+
+
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model iwae --dataset MNIST --k 1 --layers 3
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model iwae --dataset MNIST --k 5 --layers 3
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model iwae --dataset MNIST --k 50 --layers 3
+
+THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32 python experiments.py --model vae --dataset MNIST --k 50 --layers 3
