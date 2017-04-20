@@ -24,6 +24,8 @@ def train(directory_name, model, dataset, optimizer, minibatch_size, n_epochs, s
     weights = []
     effectiveSamples = []
     effectiveSamples1 = []
+    effectiveSamples2 = []
+    effectiveSamples3 = []
     threshold = 0.01
     threshold1 = 0.1
 
@@ -35,33 +37,50 @@ def train(directory_name, model, dataset, optimizer, minibatch_size, n_epochs, s
             weights += summand.tolist()
 	    effectiveSamples += [sum(i > threshold for i in summand.tolist())/minibatch_size]
    	    effectiveSamples1 += [sum(i > threshold1 for i in summand.tolist())/minibatch_size]
+	    effectiveSamples2 += [ (len(summand.tolist())*(sum(summand.tolist()) / len(summand.tolist()))**2 )/ (sum(i**2 for i in summand.tolist()) / len(summand.tolist()))]
 	    #print len(summand)
             pbar.update(j*num_minibatches+i)
     pbar.finish()
 	
     avEffectiveSamples1 = (reduce(lambda x, y: x + y, effectiveSamples1) / float(len(effectiveSamples1)))
     avEffectiveSamples = (reduce(lambda x, y: x + y, effectiveSamples) / float(len(effectiveSamples)))
+    avEffectiveSamples2 = (reduce(lambda x, y: x + y, effectiveSamples2) / float(len(effectiveSamples)))
+    avEffectiveSamples3 = avEffectiveSamples2/minibatch_size
     ep = n_epochs #n_epochs**(1/3)+1
 
     with open(os.path.join(directory_name, "avEffecSamples"+str(ep)+".txt"), "w") as f:
-        f.write(str(avEffectiveSamples) + ' , ' + str(avEffectiveSamples1) )
+        f.write(str(avEffectiveSamples) + ' , ' + str(avEffectiveSamples1) + ' , ' + str(avEffectiveSamples2) + ' , ' + str(avEffectiveSamples3) )
 
     plt.figure()
-    plt.hist(weights, 100)
-    plt.xlabel('normalized importance weight')
-    plt.savefig(os.path.join(directory_name, "weightsDistr"+str(ep)+".jpg"))
-    plt.close()
-    plt.figure()
-    plt.plot(effectiveSamples)
+    plt.plot(effectiveSamples3)
     plt.ylabel('number of effective samples')
     plt.xlabel('iteration')
-    plt.savefig(os.path.join(directory_name, "effectiveSamples"+str(ep)+".jpg"))
+    plt.savefig(os.path.join(directory_name, "effectiveSamples3"+str(ep)+".jpg"))
     plt.close()
+
     plt.figure()
-    plt.plot(effectiveSamples1)
+    plt.plot(effectiveSamples2)
     plt.ylabel('number of effective samples')
     plt.xlabel('iteration')
-    plt.savefig(os.path.join(directory_name, "effectiveSamples_2_"+str(ep)+".jpg"))
+    plt.savefig(os.path.join(directory_name, "effectiveSamples2"+str(ep)+".jpg"))
     plt.close()
+    if (False):
+	    plt.figure()
+	    plt.hist(weights, 100)
+	    plt.xlabel('normalized importance weight')
+	    plt.savefig(os.path.join(directory_name, "weightsDistr"+str(ep)+".jpg"))
+	    plt.close()
+	    plt.figure()
+	    plt.plot(effectiveSamples)
+	    plt.ylabel('number of effective samples')
+	    plt.xlabel('iteration')
+	    plt.savefig(os.path.join(directory_name, "effectiveSamples"+str(ep)+".jpg"))
+	    plt.close()
+	    plt.figure()
+	    plt.plot(effectiveSamples1)
+	    plt.ylabel('number of effective samples')
+	    plt.xlabel('iteration')
+	    plt.savefig(os.path.join(directory_name, "effectiveSamples_2_"+str(ep)+".jpg"))
+	    plt.close()
     return model
 
